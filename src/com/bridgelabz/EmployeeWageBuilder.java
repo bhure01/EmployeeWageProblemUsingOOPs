@@ -1,41 +1,48 @@
 package com.bridgelabz;
 
-public class EmployeeWageBuilder {
-    // final Constants
-    public static final int IS_FULL_TIME = 1;
-    public static final int IS_PART_TIME = 2;
+public class EmployeeWageBuilder extends EmpWage {
+    private static final int IS_FULL_TIME = 1;
+    private static final int IS_PART_TIME = 2;
+    // static variables
+//    public static final int IS_PART_TIME = 1;
+//    public static final int IS_FULL_TIME = 2;
+    // instance variables
     private int numOfCompanies = 0;
-    private CompanyEmpWage[] companyEmpWages;
-
+    private CompanyEmpWage[] companyEmpWage;
 
     public EmployeeWageBuilder() {
-        companyEmpWages = new CompanyEmpWage[5];
+        companyEmpWage = new CompanyEmpWage[5];
     }
 
-    private void addCompanyEmpWage();
-    //created Constructor to initialize the Variables
-    public EmployeeWageBuilder(String companyName, int maxWorkingDaysInMonth, int maxHrsInMonth, int empWagePerHr) {
-        this.companyName = companyName;
-        this.empWagePerHr = empWagePerHr;
-        this.maxWorkingDaysInMonth = maxWorkingDaysInMonth;
-        this.maxHrsInMonth = maxHrsInMonth;
+    private void addCompanyEmpWages(String companyName, int empWagePerHr, int maxNumWorkingDaysPerMonth, int maxHrsPerMonth) {
+        companyEmpWage[numOfCompanies] = new CompanyEmpWage(companyName,empWagePerHr,maxNumWorkingDaysPerMonth,maxHrsPerMonth);
+        numOfCompanies++;
     }
 
-    //Method to Calculate Employee Wage by Hours and Type
     public void calculateEmpWage() {
-        // Local Variables
-        int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0;
-        //Compute Emp Wage for Month
-        while( totalWorkingDays < maxWorkingDaysInMonth && totalEmpHrs <= maxHrsInMonth ) {
+        for (int i = 0; i < numOfCompanies; i++) {
+            companyEmpWage[i].setTotalEmpWage(this.calculateEmpWage(companyEmpWage[i]));
+            System.out.println(companyEmpWage[i].toString());
+        }
+    }
+
+    // created method to calculate Employee Wage based on Emp Hours and Emp Type
+    public int calculateEmpWage(CompanyEmpWage companyEmpWage) {
+        // local Variables
+        int empHrs = 0;
+        int totalEmpHrs = 0;
+        int totalWorkingDays = 0;
+        // calculating Employee Wage for a Month
+        while( totalEmpHrs <= companyEmpWage.maxHrsPerMonth && totalWorkingDays < companyEmpWage.maxNumWorkingDaysPerMonth) {
             totalWorkingDays++;
             double empCheck = Math.floor(Math.random() * 10) % 3;
 
             switch ((int) empCheck) {
-                case IS_PART_TIME:
-                    empHrs = 8;
-                    System.out.println("Employee is Present for Part Time");
-                    break;
                 case IS_FULL_TIME:
+                    empHrs = 8;
+                    System.out.println("Employee is Present for Full Time");
+                    break;
+                case IS_PART_TIME:
                     empHrs = 4;
                     System.out.println("Employee is Present for Part Time");
                     break;
@@ -45,25 +52,17 @@ public class EmployeeWageBuilder {
                     break;
             }
             totalEmpHrs = totalEmpHrs + empHrs;
-            System.out.println("Day No :"+ totalWorkingDays +" Employee Hours : "+ empHrs);
+            System.out.println("Day No :"+ totalWorkingDays +" Employee Hours: "+ empHrs);
         }
-        totalEmpWage = totalEmpHrs * empWagePerHr;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Total Employee Wage for Company : "+ companyName +" is : "+totalEmpWage;
+        return totalEmpHrs * companyEmpWage.empWagePerHr;
     }
 
     public static void main(String[] args) {
-        //Welcome Message for Initial Purpose
-        System.out.println("Welcome to Employee Wages Problem Developed by Tahir Mansuri.");
-        EmployeeWageBuilder dmart = new EmployeeWageBuilder("DMart",20,10,30);
-        EmployeeWageBuilder bigbazaar = new EmployeeWageBuilder("BigBazaar",15,5,25);
-        dmart.calculateEmpWage();
-        System.out.println(dmart.toString());
-        bigbazaar.calculateEmpWage();
-        System.out.println(bigbazaar.toString());
+        System.out.println("Welcome to Employee Wage Calculation Problem");
+        EmployeeWageBuilder empWageBuilder = new EmployeeWageBuilder();
+        empWageBuilder.addCompanyEmpWages("Dmart",20,5,25);
+        empWageBuilder.addCompanyEmpWages("BigBazaar",15,30,30);
+        empWageBuilder.calculateEmpWage();
     }
 }
+

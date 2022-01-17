@@ -1,63 +1,29 @@
 package com.bridgelabz;
 
 public class CompanyEmpWage {
-    //Constants for class
-    public static final int IS_PART_TIME = 1;
-    public static final int IS_FULL_TIME = 2;
+    // Instance Variables
+    public String companyName;
+    public int empWagePerHr;
+    public int maxNumWorkingDaysPerMonth;
+    public int maxHrsPerMonth;
+    public int totalEmpWage;
 
-    private int noOfCompanies = 0;
-    private CompanyEmpWage[] companyEmpWages;
-
-    public EmployeeWageBuilderArray() {
-        companyEmpWages = new CompanyEmpWage[5];
+    //  Constructor(parameterised) for initializing the variables
+    public CompanyEmpWage(String companyName, int empWagePerHr, int maxNumWorkingDaysPerMonth, int maxHrsPerMonth) {
+        this.companyName = companyName;
+        this.empWagePerHr = empWagePerHr;
+        this.maxNumWorkingDaysPerMonth = maxNumWorkingDaysPerMonth;
+        this.maxHrsPerMonth = maxHrsPerMonth;
     }
 
-    private void addCompanyEmpWages(String company, int wagePerHr, int numOfWorkingDays, int maxHrsPerMonth) {
-        companyEmpWages[noOfCompanies] = new CompanyEmpWage(company,wagePerHr,numOfWorkingDays,maxHrsPerMonth);
-        noOfCompanies++;
+    public void setTotalEmpWage(int totalEmpWage) {
+        this.totalEmpWage = totalEmpWage;
     }
 
-    private void calculateEmpWage() {
-        for (int i = 0; i < noOfCompanies; i++) {
-            companyEmpWages[i].setTotalEmpWage(this.calculateEmpWage(companyEmpWages[i]));
-            System.out.println(companyEmpWages[i].toString());
-        }
+    //Override the toString() from String Class
+    @Override
+    public String toString() {
+        return "Total Employee Wage for Company : "+ companyName +" is : "+totalEmpWage;
     }
+}
 
-    //Method to Calculate Employee Wage by Hours and Type
-    public int calculateEmpWage(CompanyEmpWage companyEmpWage) {
-        // Local Variables
-        int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0;
-        //Compute Emp Wage for Month
-        while( totalEmpHrs <= companyEmpWage.maxHrsPerMonth && totalWorkingDays < companyEmpWage.numWorkingDays) {
-            totalWorkingDays++;     //Incrementing Working Days
-            double empCheck = Math.floor(Math.random() * 10) % 3;
-
-            switch ((int) empCheck) {
-                case IS_PART_TIME:
-                    System.out.println("Employee is Present as PART TIME");
-                    empHrs = 4;
-                    break;
-                case IS_FULL_TIME:
-                    System.out.println("Employee is Present as FULL TIME");
-                    empHrs = 8;
-                    break;
-                default:
-                    System.out.println("Employee is Absent");
-                    empHrs = 0;
-                    break;
-            }
-            totalEmpHrs += empHrs;
-            System.out.println("Day No :"+ totalWorkingDays +" Emp Hrs: "+ empHrs);
-        }
-        return totalEmpHrs * companyEmpWage.wagePerHr;
-    }
-
-    public static void main(String[] args) {
-        //Welcome Message for Initial Purpose
-        System.out.println("Welcome to Employee Wages Problem Developed by Tahir Mansuri.");
-        EmployeeWageBuilderArray employeeWageBuilderArray = new EmployeeWageBuilderArray();
-        employeeWageBuilderArray.addCompanyEmpWages("JIO",20,5,25);
-        employeeWageBuilderArray.addCompanyEmpWages("VODAFONE",15,30,30);
-        employeeWageBuilderArray.calculateEmpWage();
-    }
