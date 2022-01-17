@@ -1,19 +1,20 @@
 package com.bridgelabz;
 
-public class EmployeeWageCalculationWithOOPs {
+public class EmployeeWageBuilder {
     // final Constants
     public static final int IS_FULL_TIME = 1;
     public static final int IS_PART_TIME = 2;
+    private int numOfCompanies = 0;
+    private CompanyEmpWage[] companyEmpWages;
 
-    // instance Variables
-    private String companyName;
-    private int maxWorkingDaysInMonth;
-    private int maxHrsInMonth;
-    private int empWagePerHr;
-    private int totalEmpWage;
 
+    public EmployeeWageBuilder() {
+        companyEmpWages = new CompanyEmpWage[5];
+    }
+
+    private void addCompanyEmpWage();
     //created Constructor to initialize the Variables
-    public EmployeeWageCalculationWithOOPs(String companyName, int maxWorkingDaysInMonth, int maxHrsInMonth, int empWagePerHr) {
+    public EmployeeWageBuilder(String companyName, int maxWorkingDaysInMonth, int maxHrsInMonth, int empWagePerHr) {
         this.companyName = companyName;
         this.empWagePerHr = empWagePerHr;
         this.maxWorkingDaysInMonth = maxWorkingDaysInMonth;
@@ -58,8 +59,8 @@ public class EmployeeWageCalculationWithOOPs {
     public static void main(String[] args) {
         //Welcome Message for Initial Purpose
         System.out.println("Welcome to Employee Wages Problem Developed by Tahir Mansuri.");
-        EmployeeWageCalculationWithOOPs dmart = new EmployeeWageCalculationWithOOPs("DMart",20,10,30);
-        EmployeeWageCalculationWithOOPs bigbazaar = new EmployeeWageCalculationWithOOPs("BigBazaar",15,5,25);
+        EmployeeWageBuilder dmart = new EmployeeWageBuilder("DMart",20,10,30);
+        EmployeeWageBuilder bigbazaar = new EmployeeWageBuilder("BigBazaar",15,5,25);
         dmart.calculateEmpWage();
         System.out.println(dmart.toString());
         bigbazaar.calculateEmpWage();
